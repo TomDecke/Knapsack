@@ -1,4 +1,9 @@
-package de.knapsack;
+package de.knapsack.controller;
+
+import de.knapsack.model.InputValidationException;
+import de.knapsack.model.Bag;
+import de.knapsack.model.Item;
+import de.knapsack.model.KnapsackProblem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,30 +16,32 @@ import java.util.*;
 @SuppressWarnings("ALL")
 public class InputHandler {
 
-    public List<Knapsack> extractKnapsackproblemsFromFile(String aFilepath){
+    /**
+     * Reads data from a given file and converts it into a list of knapsack problems.
+     * @param aFilepath path to input file
+     * @return
+     */
+    public List<KnapsackProblem> extractKnapsackproblemsFromFile(String aFilepath){
 
-        List<Knapsack> knapsacks = new ArrayList<>();
-        List<String> knapsacksStrings = new ArrayList<>();
+        List<KnapsackProblem> knapsacks = new ArrayList<>();
         File inputFile = new File(aFilepath);
         Scanner fileScanner;
         try {
+            int knapsackId = 1;
             fileScanner = new Scanner(inputFile);
+
             while (fileScanner.hasNextLine()) {
                 String currentLine = fileScanner.nextLine();
                 if (!currentLine.isBlank()) {
-                    knapsacksStrings.add(currentLine);
-                }
-            }
-
-            int knapsackId = 1;
-            for (String knapsack: knapsacksStrings) {
-                System.out.println(knapsack);
-                String[] parts = knapsack.split(":");
-                try {
-                    knapsacks.add(new Knapsack(knapsackId,createBag(parts[0]),createItems(parts[1])));
+                    // TODO remove
+                    System.out.println(currentLine);
+                    String[] knapsackInformation = currentLine.split(":");
+                    try {
+                        knapsacks.add(new KnapsackProblem(knapsackId,createBag(knapsackInformation[0]),createItems(knapsackInformation[1])));
+                    }catch(InputValidationException anExc){
+                        System.out.println("Invalid input on data entry #"+knapsackId+": "+anExc.getMessage());
+                    }
                     knapsackId++;
-                }catch(InputValidationException anExc){
-                    System.out.println("Invalid input on dataset #"+knapsackId+": "+anExc.getMessage());
                 }
             }
         } catch (FileNotFoundException anExc) {
@@ -52,14 +59,14 @@ public class InputHandler {
      */
     private Bag createBag(String aMaxWeight) throws InputValidationException {
         aMaxWeight = aMaxWeight.strip();
-        int maxWeight;
+        BigDecimal maxWeight;
         try {
-            maxWeight = Integer.parseInt(aMaxWeight);
-            if(maxWeight < 0 || maxWeight > 100){
+            maxWeight = new BigDecimal(aMaxWeight);
+            if(BigDecimal.ZERO.compareTo(maxWeight) == 1 || BigDecimal.valueOf(100L).compareTo(maxWeight) == -1){
                 throw new InputValidationException("Invalid weight. " + aMaxWeight +" is not within range 0 <= x <= 100 ");
             }
-        }catch(NumberFormatException exc){
-            throw new InputValidationException(aMaxWeight+" is not a valid weight");
+        }catch(NumberFormatException exc) {
+            throw new InputValidationException(aMaxWeight + " is not a valid weight");
         }
 
         return new Bag(maxWeight);
@@ -90,8 +97,11 @@ public class InputHandler {
             itemString = itemString.replace("€","");
             String[] itemProperties = itemString.split(",");
 
-
-            items.add(createItem(itemProperties[0],itemProperties[1],itemProperties[2]));
+            if(itemProperties.length == 3){
+                items.add(createItem(itemProperties[0],itemProperties[1],itemProperties[2]));
+            }else {
+                throw new InputValidationException("Invalid item dataset");
+            }
 
         }
 
@@ -102,7 +112,7 @@ public class InputHandler {
     }
 
     /**
-     * Creates an item for a package.
+     * Creates an item for a bag.
      * @param anId
      * @param aWeight
      * @param aCost
@@ -125,7 +135,7 @@ public class InputHandler {
                 throw new InputValidationException("Invalid weight. " + itemWeight +" is not within range 0 <= x <= 100 ");
             }
         }catch(NumberFormatException exc){
-            throw new InputValidationException(anId+" is not a valid weight");
+            throw new InputValidationException(aWeight+" is not a valid weight");
         }
 
         try {
@@ -139,4 +149,7 @@ public class InputHandler {
 
         return new Item(itemId,itemWeight,itemCost);
     }
+
+
+
 }

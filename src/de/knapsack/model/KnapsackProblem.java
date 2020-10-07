@@ -1,8 +1,11 @@
-package de.knapsack;
+package de.knapsack.model;
+
+import de.knapsack.model.Bag;
+import de.knapsack.model.Item;
 
 import java.util.List;
 
-public class Knapsack {
+public class KnapsackProblem {
 
     int id;
 
@@ -10,10 +13,18 @@ public class Knapsack {
 
     List<Item> items;
 
-    public Knapsack(int id, Bag bag, List<Item> items) {
+    public KnapsackProblem(int id, Bag bag, List<Item> items) {
         this.id = id;
         this.bag = bag;
         this.items = items;
+    }
+
+    public void solve(){
+        String itemsAsStrings = "";
+        for (Item i:items) {
+            itemsAsStrings += i;
+        }
+        System.out.println(id+": "+bag.toString()+itemsAsStrings);
     }
 
     public int getId() {

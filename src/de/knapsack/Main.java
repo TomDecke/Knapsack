@@ -1,11 +1,14 @@
 package de.knapsack;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.math.BigDecimal;
+import de.knapsack.controller.InputHandler;
+import de.knapsack.controller.KnapsackSolver;
+import de.knapsack.model.KnapsackProblem;
+
 import java.util.*;
 
-@SuppressWarnings("ALL")
+/**
+ * Main class with entrypoint for the solver.
+ */
 public class Main {
 
     public static void main(String[] args) {
@@ -15,12 +18,11 @@ public class Main {
             return;
         }
         InputHandler handler = new InputHandler();
-        handler.extractKnapsackproblemsFromFile(args[0]);
+        List<KnapsackProblem> problems = handler.extractKnapsackproblemsFromFile(args[0]);
+
+        KnapsackSolver knapsackSolver = new KnapsackSolver();
+        for (KnapsackProblem problem:problems) {
+            knapsackSolver.solve(problem);
+        }
     }
-
-
-
-
-
-
 }

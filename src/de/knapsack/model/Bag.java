@@ -1,17 +1,19 @@
-package de.knapsack;
+package de.knapsack.model;
+
+import java.math.BigDecimal;
 
 public class Bag {
-   private int maxWeight;
+   private BigDecimal maxWeight;
 
-    public Bag(int maxWeight) {
+    public Bag(BigDecimal maxWeight) {
         this.maxWeight = maxWeight;
     }
 
-    public int getMaxWeight() {
+    public BigDecimal getMaxWeight() {
         return maxWeight;
     }
 
-    public void setMaxWeight(int maxWeight) {
+    public void setMaxWeight(BigDecimal maxWeight) {
         this.maxWeight = maxWeight;
     }
 

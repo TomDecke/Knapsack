@@ -1,4 +1,4 @@
-package de.knapsack;
+package de.knapsack.model;
 
 import java.math.BigDecimal;
 
