@@ -2,7 +2,13 @@ package de.knapsack.model;
 
 import java.math.BigDecimal;
 
+/**
+ * Class to represent a bag that is to be filled.
+ * @author TDecke
+ */
 public class Bag {
+
+    /** maximum carrying capacity of the bag. */
    private BigDecimal maxWeight;
 
     public Bag(BigDecimal maxWeight) {

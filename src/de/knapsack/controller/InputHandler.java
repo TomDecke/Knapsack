@@ -12,6 +12,7 @@ import java.util.*;
 
 /**
  * Class to extract a List of Knapsack-Problems from a given file.
+ * @author TDecke
  */
 @SuppressWarnings("ALL")
 public class InputHandler {
@@ -36,6 +37,11 @@ public class InputHandler {
                     // TODO remove
                     System.out.println(currentLine);
                     String[] knapsackInformation = currentLine.split(":");
+                    if(knapsackInformation.length == 2){
+                        System.out.println("Invalid input on data entry #"+knapsackId+": wrong format (to many colons)");
+                        knapsackId++;
+                        continue;
+                    }
                     try {
                         knapsacks.add(new KnapsackProblem(knapsackId,createBag(knapsackInformation[0]),createItems(knapsackInformation[1])));
                     }catch(InputValidationException anExc){

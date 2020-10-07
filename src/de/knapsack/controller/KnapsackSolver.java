@@ -3,6 +3,9 @@ package de.knapsack.controller;
 import de.knapsack.model.Item;
 import de.knapsack.model.KnapsackProblem;
 
+/**
+ * Class to find a solution for an instance of the knapsack problem.
+ */
 public class KnapsackSolver {
 
     /**
@@ -10,10 +13,19 @@ public class KnapsackSolver {
      * @param aKnapsackProblem the problem to solve
      */
     public void solve(KnapsackProblem aKnapsackProblem){
-        String itemsAsStrings = "";
-        for (Item i:aKnapsackProblem.getItems()) {
-            itemsAsStrings += i;
+       printSolution(aKnapsackProblem);
+    }
+
+    /**
+     * Print the found solution to the console.
+     * @param problem the problem once again
+     */
+    private void printSolution(KnapsackProblem problem){
+        StringBuilder itemsAsStrings = new StringBuilder();
+        for (Item i:problem.getItems()) {
+            itemsAsStrings.append(i);
+            itemsAsStrings.append(", ");
         }
-        System.out.println(aKnapsackProblem.getId()+": "+aKnapsackProblem.getBag().toString()+itemsAsStrings);
+        System.out.println(problem.getId()+": "+problem.getBag().toString()+itemsAsStrings.toString());
     }
 }

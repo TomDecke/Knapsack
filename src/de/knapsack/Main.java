@@ -8,6 +8,7 @@ import java.util.*;
 
 /**
  * Main class with entrypoint for the solver.
+ * @author TDecke 
  */
 public class Main {
 

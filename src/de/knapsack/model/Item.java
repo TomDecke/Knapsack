@@ -2,11 +2,19 @@ package de.knapsack.model;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents an item that can be stored in a bag.
+ * @author TDecke
+ */
 public class Item {
+
+    /** Id of the item. */
     private int id;
 
+    /** value of the item. */
     private BigDecimal cost;
 
+    /** weight of the item. */
     private BigDecimal weight;
 
     public Item(int id, BigDecimal cost, BigDecimal weight) {

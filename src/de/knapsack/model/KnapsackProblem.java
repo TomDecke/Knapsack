@@ -19,14 +19,6 @@ public class KnapsackProblem {
         this.items = items;
     }
 
-    public void solve(){
-        String itemsAsStrings = "";
-        for (Item i:items) {
-            itemsAsStrings += i;
-        }
-        System.out.println(id+": "+bag.toString()+itemsAsStrings);
-    }
-
     public int getId() {
         return id;
     }
