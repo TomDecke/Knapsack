@@ -11,16 +11,17 @@ public class Item {
     /** Id of the item. */
     private int id;
 
-    /** value of the item. */
-    private BigDecimal cost;
-
     /** weight of the item. */
     private BigDecimal weight;
 
-    public Item(int id, BigDecimal cost, BigDecimal weight) {
+    /** value of the item. */
+    private BigDecimal cost;
+
+
+    public Item(int id, BigDecimal weight, BigDecimal cost) {
         this.id = id;
-        this.cost = cost;
         this.weight = weight;
+        this.cost = cost;
     }
 
     public int getId() {
@@ -31,13 +32,6 @@ public class Item {
         this.id = id;
     }
 
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
-    }
 
     public BigDecimal getWeight() {
         return weight;
@@ -47,12 +41,20 @@ public class Item {
         this.weight = weight;
     }
 
+    public BigDecimal getCost() {
+        return cost;
+    }
+
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
                 "id=" + id +
-                ", cost=" + cost +
                 ", weight=" + weight +
+                ", cost=" + cost +
                 '}';
     }
 }

@@ -34,11 +34,9 @@ public class InputHandler {
             while (fileScanner.hasNextLine()) {
                 String currentLine = fileScanner.nextLine();
                 if (!currentLine.isBlank()) {
-                    // TODO remove
-                    System.out.println(currentLine);
                     String[] knapsackInformation = currentLine.split(":");
-                    if(knapsackInformation.length == 2){
-                        System.out.println("Invalid input on data entry #"+knapsackId+": wrong format (to many colons)");
+                    if(knapsackInformation.length != 2){
+                        System.out.println("Invalid input on data entry #"+knapsackId+": wrong format [one colon expected]");
                         knapsackId++;
                         continue;
                     }
@@ -80,7 +78,7 @@ public class InputHandler {
     }
 
     /**
-     * Creates a List of items from a String
+     * Creates a List of items from a String.
      * @param someItemsAsString
      * @return
      * @throws InputValidationException
@@ -104,6 +102,7 @@ public class InputHandler {
             String[] itemProperties = itemString.split(",");
 
             if(itemProperties.length == 3){
+                // TODO ggf das array übergeben?!
                 items.add(createItem(itemProperties[0],itemProperties[1],itemProperties[2]));
             }else {
                 throw new InputValidationException("Invalid item dataset");
@@ -153,7 +152,7 @@ public class InputHandler {
             throw new InputValidationException(anId+" is not a valid price");
         }
 
-        return new Item(itemId,itemWeight,itemCost);
+        return new Item(itemId, itemWeight, itemCost);
     }
 
 

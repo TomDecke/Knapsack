@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Main class with entrypoint for the solver.
- * @author TDecke 
+ * @author TDecke
  */
 public class Main {
 
@@ -22,6 +22,7 @@ public class Main {
         List<KnapsackProblem> problems = handler.extractKnapsackproblemsFromFile(args[0]);
 
         KnapsackSolver knapsackSolver = new KnapsackSolver();
+
         for (KnapsackProblem problem:problems) {
             knapsackSolver.solve(problem);
         }
