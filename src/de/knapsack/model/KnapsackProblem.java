@@ -1,45 +1,35 @@
 package de.knapsack.model;
 
-import de.knapsack.model.Bag;
-import de.knapsack.model.Item;
-
+import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Representation of an instance of the Knapsack-Problem.
+ * @author TDecke
+ */
 public class KnapsackProblem {
 
-    int id;
+    /** Maximum capacity of the bag. */
+    BigDecimal capacity;
 
-    Bag bag;
-
+    /** List of items to choose from. */
     List<Item> items;
 
-    public KnapsackProblem(int id, Bag bag, List<Item> items) {
-        this.id = id;
-        this.bag = bag;
+    /**
+     * Constructor
+     * @param aCapacity max capacity
+     * @param items list of items to choose from
+     */
+    public KnapsackProblem(BigDecimal aCapacity, List<Item> items) {
+        this.capacity = aCapacity;
         this.items = items;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Bag getBag() {
-        return bag;
-    }
-
-    public void setBag(Bag bag) {
-        this.bag = bag;
     }
 
     public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public BigDecimal getCapacity() {
+        return capacity;
     }
 }

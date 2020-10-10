@@ -15,38 +15,25 @@ public class Item {
     private BigDecimal weight;
 
     /** value of the item. */
-    private BigDecimal cost;
+    private BigDecimal value;
 
 
-    public Item(int id, BigDecimal weight, BigDecimal cost) {
-        this.id = id;
-        this.weight = weight;
-        this.cost = cost;
+    public Item(int anId, BigDecimal aWeight, BigDecimal aValue) {
+        this.id = anId;
+        this.weight = aWeight;
+        this.value = aValue;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
     public BigDecimal getWeight() {
         return weight;
     }
 
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
-    }
-
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
+    public BigDecimal getValue() {
+        return value;
     }
 
     @Override
@@ -54,7 +41,7 @@ public class Item {
         return "Item{" +
                 "id=" + id +
                 ", weight=" + weight +
-                ", cost=" + cost +
+                ", value=" + value +
                 '}';
     }
 }

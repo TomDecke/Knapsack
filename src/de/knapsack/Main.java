@@ -19,11 +19,11 @@ public class Main {
             return;
         }
         InputHandler handler = new InputHandler();
-        List<KnapsackProblem> problems = handler.extractKnapsackproblemsFromFile(args[0]);
+        List<KnapsackProblem> knapsackProblems = handler.extractKnapsackProblemsFromFile(args[0]);
 
         KnapsackSolver knapsackSolver = new KnapsackSolver();
 
-        for (KnapsackProblem problem:problems) {
+        for (KnapsackProblem problem:knapsackProblems) {
             knapsackSolver.solve(problem);
         }
     }

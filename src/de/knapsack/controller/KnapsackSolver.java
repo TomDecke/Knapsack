@@ -8,9 +8,11 @@ import java.util.*;
 
 /**
  * Class to find a solution for an instance of the knapsack problem.
+ * @author TDecke
  */
 public class KnapsackSolver {
 
+    /** The problem the solver is currently solving. */
     KnapsackProblem theProblem;
 
 
@@ -21,18 +23,19 @@ public class KnapsackSolver {
     public void solve(KnapsackProblem aKnapsackProblem){
        theProblem = aKnapsackProblem;
        ArrayList<Integer> selectedItems = new ArrayList<>();
-       determineMaxValue(aKnapsackProblem.getItems().size()-1,aKnapsackProblem.getBag().getMaxWeight(),selectedItems);
+       handleKnapsack(aKnapsackProblem.getItems().size()-1,aKnapsackProblem.getCapacity(), selectedItems);
        optimizeWeights(selectedItems);
-       printSolution(selectedItems);
+       printItems(selectedItems);
     }
 
     /**
-     * Determine the maximum achievable value for a given item for a remaining weight.
-     * @param anIndex           the index of the item to consider
+     * Determine the maximum achievable value for a given item for a remaining weight while keeping track of the items that belong to the solution
+     * @param anIndex          the index of the item to consider
      * @param aRemainingWeight the remaining weight of the bag
+     * @param someChosenItems  the items which are part of the solution so far
      * @return
      */
-    private BigDecimal determineMaxValue(int anIndex, BigDecimal aRemainingWeight, ArrayList<Integer> someChosenItems){
+    private BigDecimal handleKnapsack(int anIndex, BigDecimal aRemainingWeight, ArrayList<Integer> someChosenItems){
 
         BigDecimal maxValue = BigDecimal.ZERO;
 
@@ -43,17 +46,17 @@ public class KnapsackSolver {
 
         Item currentItem = theProblem.getItems().get(anIndex);
         if(currentItem.getWeight().compareTo(aRemainingWeight) == 1){
-            maxValue = determineMaxValue(anIndex-1,aRemainingWeight,someChosenItems);
+            maxValue = handleKnapsack(anIndex-1,aRemainingWeight,someChosenItems);
         } else{
 
-            // put the item in the bag
+            // choice: put the item in the bag
             int sizeBeforeChosen = someChosenItems.size();
-            BigDecimal valueIfChosen = currentItem.getCost().add(determineMaxValue(anIndex-1,aRemainingWeight.subtract(currentItem.getWeight()),someChosenItems));
+            BigDecimal valueIfChosen = currentItem.getValue().add(handleKnapsack(anIndex-1,aRemainingWeight.subtract(currentItem.getWeight()),someChosenItems));
 
 
-            // don't put the item in the bag
+            // choice: don't put the item in the bag
             int sizeBeforeNotChosen = someChosenItems.size();
-            BigDecimal valueIfNotChosen = determineMaxValue(anIndex-1,aRemainingWeight,someChosenItems);
+            BigDecimal valueIfNotChosen = handleKnapsack(anIndex-1,aRemainingWeight,someChosenItems);
 
 
 
@@ -79,9 +82,9 @@ public class KnapsackSolver {
      * Removes elements from the passed list in the given range.
      * This is a reimplementation of functionality of <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html#removeRange-int-int-">ArrayList#removeRange(int, int)</a>
      *
-     * @param aListToRemoveFrom
-     * @param aStartIndex
-     * @param anEndIndex
+     * @param aListToRemoveFrom list that is to be augmented
+     * @param aStartIndex first index from which to remove
+     * @param anEndIndex index up to which to remove
      */
     private void removeUnwantedItems(List<Integer> aListToRemoveFrom, int aStartIndex, int anEndIndex){
         int elementsToRemove = anEndIndex-aStartIndex;
@@ -93,20 +96,24 @@ public class KnapsackSolver {
 
     /**
      * Takes a list containing the indices for a possible solution and replaces items of equal values for lighter ones
-     * @param someItemIndices List with a proposed solution for the problem
+     * @param someItemIndices List with a proposed solution for the given problem
      */
     private void optimizeWeights(List<Integer> someItemIndices){
         List<Item> allItems = theProblem.getItems();
+
+        // to easily track if an item is already part of the solution
         Map<Integer,Item> solutionParts = new HashMap<>();
         for (Integer index: someItemIndices) {
             solutionParts.put(index,allItems.get(index-1));
         }
+        // check if a part of the solution can be substituted by a better fit
         for(int indexSelected = 0; indexSelected < someItemIndices.size(); indexSelected++){
             Item itemToOptimize = allItems.get(someItemIndices.get(indexSelected)-1);
             BigDecimal minWeight = itemToOptimize.getWeight();
 
             for (Item currentItem: allItems) {
-                if(!solutionParts.containsKey(currentItem.getId()) && currentItem.getCost().compareTo(itemToOptimize.getCost()) == 0  && currentItem.getWeight().compareTo(minWeight) == -1 ){
+                // substitute items for equally valuable ones which aren't already part of the solution
+                if(!solutionParts.containsKey(currentItem.getId()) && currentItem.getValue().compareTo(itemToOptimize.getValue()) == 0  && currentItem.getWeight().compareTo(minWeight) == -1 ){
                     someItemIndices.set(indexSelected,currentItem.getId());
                     minWeight = currentItem.getWeight();
                 }
@@ -119,7 +126,7 @@ public class KnapsackSolver {
      * Print the found solution to the console.
      * @param someSolutionIndices a list with the indices of the chosen items
      */
-    private void printSolution(List<Integer> someSolutionIndices){
+    private void printItems(List<Integer> someSolutionIndices){
         if(someSolutionIndices.isEmpty()){
             System.out.println("-");
         }else{
@@ -131,6 +138,5 @@ public class KnapsackSolver {
             System.out.println(joiner.toString());
         }
         System.out.println("");
-
     }
 }
