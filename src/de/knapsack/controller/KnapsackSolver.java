@@ -21,15 +21,9 @@ public class KnapsackSolver {
     public void solve(KnapsackProblem aKnapsackProblem){
        theProblem = aKnapsackProblem;
        ArrayList<Integer> selectedItems = new ArrayList<>();
-       printSolution(aKnapsackProblem);
-       BigDecimal maxValue = determineMaxValue(aKnapsackProblem.getItems().size()-1,aKnapsackProblem.getBag().getMaxWeight(),selectedItems);
+       determineMaxValue(aKnapsackProblem.getItems().size()-1,aKnapsackProblem.getBag().getMaxWeight(),selectedItems);
        optimizeWeights(selectedItems);
-
-       System.out.println(maxValue);
-        for (Integer i: selectedItems
-             ) {
-            System.out.println(i);
-        }
+       printSolution(selectedItems);
     }
 
     /**
@@ -97,6 +91,10 @@ public class KnapsackSolver {
         }
     }
 
+    /**
+     * Takes a list containing the indices for a possible solution and replaces items of equal values for lighter ones
+     * @param someItemIndices List with a proposed solution for the problem
+     */
     private void optimizeWeights(List<Integer> someItemIndices){
         List<Item> allItems = theProblem.getItems();
         Map<Integer,Item> solutionParts = new HashMap<>();
@@ -119,14 +117,20 @@ public class KnapsackSolver {
 
     /**
      * Print the found solution to the console.
-     * @param problem the problem once again
+     * @param someSolutionIndices a list with the indices of the chosen items
      */
-    private void printSolution(KnapsackProblem problem){
-        StringBuilder itemsAsStrings = new StringBuilder();
-        for (Item i:problem.getItems()) {
-            itemsAsStrings.append(i);
-            itemsAsStrings.append(", ");
+    private void printSolution(List<Integer> someSolutionIndices){
+        if(someSolutionIndices.isEmpty()){
+            System.out.println("-");
+        }else{
+            StringJoiner joiner = new StringJoiner(",");
+            for (Integer itemIndex: someSolutionIndices) {
+                joiner.add(itemIndex.toString());
+            }
+            joiner.toString();
+            System.out.println(joiner.toString());
         }
-        System.out.println(problem.getId()+": "+problem.getBag().toString()+itemsAsStrings.toString());
+        System.out.println("");
+
     }
 }
