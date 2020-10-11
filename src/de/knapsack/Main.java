@@ -13,8 +13,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        String filepath = args[0];
-        if(filepath == null) {
+        if(args == null) {
             System.out.println("Filepath as argument required");
             return;
         }
