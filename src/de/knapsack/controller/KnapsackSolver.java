@@ -8,6 +8,11 @@ import java.util.*;
 
 /**
  * Class to find a solution for an instance of the knapsack problem.
+ *
+ * The solver uses a top-down brute-force approach to find the best set of solutions. Brute-force was selected based on the constraint that there are at most 15 items per problem to choose from. <br/>
+ * This constraint puts it at most 2^15 = 32768 possible combinations whereas a bottom-up approach with memoization would take approximately 150.000 combinations, <br/>
+ * due to the fact that each item can have up to five weight digits (maximum weight = 100.00) which would need to be considered when checking for all item/remainingWeight combinations.
+ * In a next step the solver could be optimized to memoize certain results in the top-down approach, because of the manageable size of the problem it needs to be checked whether this further investment of time is promising.
  * @author TDecke
  */
 public class KnapsackSolver {
